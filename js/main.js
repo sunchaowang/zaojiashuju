@@ -94,9 +94,7 @@ const App = {
   data() {
     return {
       form: {
-        year: "",
-        month: "",
-        total: "",
+        time: [],
         dateStart: "",
         dateEnd: ""
       },
@@ -105,12 +103,21 @@ const App = {
   methods: {
     downloadClick() {
       const cellData = []
+      if (this.form.time.length < 2) {
+        return this.$message.warning("选择时间");
+      }
+      const timeStart = this.form.time[0];
+      const timeEnd = this.form.time[1];
 
-      const month = this.form.month;
+      if (moment(timeEnd).month() !== moment(timeStart).month() ) {
+        return this.$message.warning("不能跨月");
+      }
+
+      const month = moment(timeEnd).month() + 1;
       const total = this.form.total;
-      const year = this.form.year;
-      const dateStart = this.form.dateStart;
-      const dateEnd = this.form.dateEnd;
+      const year = moment(timeEnd).year();
+      const dateStart = moment(timeStart).date();
+      const dateEnd = moment(timeEnd).date();
 
       let date = moment().year(year).month(Number(month) - 1)
       const daysInMonth = date.daysInMonth()
@@ -125,7 +132,7 @@ const App = {
       for (let i = Number(dateStart); i <= Number(dateEnd); i++) {
         days.push(Number(i));
       }
-      const filename = '点击数量汇总_'+date.format("yyyy.MM") + '_' + total + '_' + dateStart+ '_' + dateEnd +'.xlsx'
+      const filename = '点击数量汇总_' + '_' + year + '_' + month+ '_' + total + '_' + dateStart+ '_' + dateEnd +'.xlsx'
       // return;
       let index = 0;
       do{

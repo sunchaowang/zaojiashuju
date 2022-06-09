@@ -34,20 +34,20 @@
   <p>Hello world! This is HTML5 Boilerplate.</p>
   <div id="app">
     <el-form :model="form" inline>
-      <el-form-item label="年">
-        <el-input v-model="form.year" placeholder="年"></el-input>
-      </el-form-item>
-      <el-form-item label="月">
-        <el-input v-model="form.month" placeholder="月"></el-input>
+
+      <el-form-item label="时间">
+        <el-date-picker
+          v-model="form.time"
+          type="daterange"
+          placeholder="选择时间"
+          :size="size"
+          range-separator="To"
+          start-placeholder="Start date"
+          end-placeholder="End date"
+        />
       </el-form-item>
       <el-form-item label="条数">
         <el-input v-model="form.total" placeholder="条数"></el-input>
-      </el-form-item>
-      <el-form-item label="日起开始">
-        <el-input v-model="form.dateStart" placeholder="日起开始"></el-input>
-      </el-form-item>
-      <el-form-item label="日期结束">
-        <el-input v-model="form.dateEnd" placeholder="日期结束"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button @click="downloadClick">
