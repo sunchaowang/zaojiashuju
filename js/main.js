@@ -78,7 +78,6 @@ function downloadExcel(cellData, fileName) {
     skipHeader: true
   })), fileName);
 }
-const cellData = []
 
 const terminals = [
   "PC端", "移动端"
@@ -87,55 +86,79 @@ const devices = [
   "苹果", "安卓", "pad"
 ]
 
-window.document.querySelector(".downloadExcel").addEventListener("click", function () {
-  const month = window.document.querySelector(".month-input").value;
-  const total = window.document.querySelector(".total-input").value;
-  const year = window.document.querySelector(".year-input").value;
-  const dateStart = window.document.querySelector(".date-start-input").value;
-  const dateEnd = window.document.querySelector(".date-end-input").value;
+// window.document.querySelector(".downloadExcel").addEventListener("click", function () {
+//
+// })
 
-  let date = moment().year(year).month(Number(month) - 1)
-  const daysInMonth = date.daysInMonth()
-  let days = [];
-  // if (daysInMonth < Number(dateEnd)) {
-  //
-  // }else {
-  //   days = [...new Array(daysInMonth)].map((row, index) => {
-  //     return index + 1;
-  //   })
-  // }
-  for (let i = Number(dateStart); i <= Number(dateEnd); i++) {
-    days.push(Number(i));
-  }
-  const filename = '点击数量汇总_'+date.format("yyyy.MM") + '_' + total + '_' + dateStart+ '_' + dateEnd +'.xlsx'
-  // return;
-  let index = 0;
-  do{
-    date = moment().year(year).month(Number(month) - 1)
-    const terminal = terminals[Math.floor(Math.random() * terminals.length)];
-    const randomIp = () => Array(4).fill(0).map((_, i) => Math.floor(Math.random() * 255) + (i === 0 ? 1 : 0)).join('.');
+const App = {
+  data() {
+    return {
+      form: {
+        year: "",
+        month: "",
+        total: "",
+        dateStart: "",
+        dateEnd: ""
+      },
+    };
+  },
+  methods: {
+    downloadClick() {
+      const cellData = []
 
-    let device = "";
-    if (terminal == "移动端") {
-      device = devices[Math.floor(Math.random() * devices.length)];
+      const month = this.form.month;
+      const total = this.form.total;
+      const year = this.form.year;
+      const dateStart = this.form.dateStart;
+      const dateEnd = this.form.dateEnd;
+
+      let date = moment().year(year).month(Number(month) - 1)
+      const daysInMonth = date.daysInMonth()
+      let days = [];
+      // if (daysInMonth < Number(dateEnd)) {
+      //
+      // }else {
+      //   days = [...new Array(daysInMonth)].map((row, index) => {
+      //     return index + 1;
+      //   })
+      // }
+      for (let i = Number(dateStart); i <= Number(dateEnd); i++) {
+        days.push(Number(i));
+      }
+      const filename = '点击数量汇总_'+date.format("yyyy.MM") + '_' + total + '_' + dateStart+ '_' + dateEnd +'.xlsx'
+      // return;
+      let index = 0;
+      do{
+        date = moment().year(year).month(Number(month) - 1)
+        const terminal = terminals[Math.floor(Math.random() * terminals.length)];
+        const randomIp = () => Array(4).fill(0).map((_, i) => Math.floor(Math.random() * 255) + (i === 0 ? 1 : 0)).join('.');
+
+        let device = "";
+        if (terminal == "移动端") {
+          device = devices[Math.floor(Math.random() * devices.length)];
+        }
+        date.date(days[Math.floor(Math.random() * days.length)]);
+        date.hour( Math.random() * 23);
+        date.minute(Math.random() * 59);
+        date.second( Math.random() * 59);
+        cellData.push({
+          id: index +1,
+          serial: date.format("yyyyMMDDHHmmss" + Math.floor((Math.random() * 9 + 1) * 100000)),
+          ip: randomIp(),
+          terminal,
+          device,
+          createTime: date.format("yyyy.MM.DD HH:mm:ss"),
+        } )
+        index++;
+      }
+      while(index<total)
+
+      setTimeout(function () {
+        downloadExcel(cellData, filename)
+      },2)
     }
-    date.date(days[Math.floor(Math.random() * days.length)]);
-    date.hour( Math.random() * 23);
-    date.minute(Math.random() * 59);
-    date.second( Math.random() * 59);
-    cellData.push({
-      id: index +1,
-      serial: date.format("yyyyMMDDHHmmss" + Math.floor((Math.random() * 9 + 1) * 100000)),
-      ip: randomIp(),
-      terminal,
-      device,
-      createTime: date.format("yyyy.MM.DD HH:mm:ss"),
-    } )
-    index++;
   }
-  while(index<total)
-
-  setTimeout(function () {
-    downloadExcel(cellData, filename)
-  },2)
-})
+};
+const app = Vue.createApp(App);
+app.use(ElementPlus);
+app.mount("#app");

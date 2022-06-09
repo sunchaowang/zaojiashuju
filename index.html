@@ -20,18 +20,48 @@
   <link rel="stylesheet" href="css/main.css">
 
   <meta name="theme-color" content="#fafafa">
+  <!-- 导入样式 -->
+  <link rel="stylesheet" href="//unpkg.com/element-plus/dist/index.css" />
+  <!-- 导入 Vue 3 -->
+  <script src="//unpkg.com/vue@next"></script>
+  <!-- 导入组件库 -->
+  <script src="//unpkg.com/element-plus"></script>
 </head>
 
 <body>
 
   <!-- Add your site or application content here -->
   <p>Hello world! This is HTML5 Boilerplate.</p>
-  <input class="year-input" value="2021" placeholder="年"/>
-  <input class="month-input" value="10" placeholder="月"/>
-  <input class="total-input" placeholder="条数"/>
-  <input class="date-start-input" placeholder="日起开始"/>
-  <input class="date-end-input" placeholder="日期结束"/>
-  <button class="downloadExcel">下载</button>
+  <div id="app">
+    <el-form :model="form" inline>
+      <el-form-item label="年">
+        <el-input v-model="form.year" placeholder="年"></el-input>
+      </el-form-item>
+      <el-form-item label="月">
+        <el-input v-model="form.month" placeholder="月"></el-input>
+      </el-form-item>
+      <el-form-item label="条数">
+        <el-input v-model="form.total" placeholder="条数"></el-input>
+      </el-form-item>
+      <el-form-item label="日起开始">
+        <el-input v-model="form.dateStart" placeholder="日起开始"></el-input>
+      </el-form-item>
+      <el-form-item label="日期结束">
+        <el-input v-model="form.dateEnd" placeholder="日期结束"></el-input>
+      </el-form-item>
+      <el-form-item>
+        <el-button @click="downloadClick">
+          下载
+        </el-button>
+      </el-form-item>
+    </el-form>
+  </div>
+<!--  <input class="year-input" value="2021" placeholder="年"/>-->
+<!--  <input class="month-input" value="10" placeholder="月"/>-->
+<!--  <input class="total-input" placeholder="条数"/>-->
+<!--  <input class="date-start-input" placeholder="日起开始"/>-->
+<!--  <input class="date-end-input" placeholder="日期结束"/>-->
+<!--  <button class="downloadExcel">下载</button>-->
   <script src="js/vendor/modernizr-3.11.2.min.js"></script>
   <script src="js/plugins.js"></script>
   <script src="js/main.js"></script>
@@ -40,6 +70,7 @@
   <script>
     window.ga = function () { ga.q.push(arguments) }; ga.q = []; ga.l = +new Date;
     ga('create', 'UA-XXXXX-Y', 'auto'); ga('set', 'anonymizeIp', true); ga('set', 'transport', 'beacon'); ga('send', 'pageview')
+
   </script>
   <script src="https://www.google-analytics.com/analytics.js" async></script>
 </body>
